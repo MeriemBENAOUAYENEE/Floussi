@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffff"
+    tools:context=".historique">
+
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Table"
+        android:orientation="horizontal">
+        <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Expenses"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:gravity="center">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prix"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:gravity="center">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:gravity="center">
+
+        </TextView>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/expensesHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:gravity="center">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/CostHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:gravity="center">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/DateHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:gravity="center">
+
+            </TextView>
+        </TableRow>
+        </TableLayout>
+
+    <Button
+        android:id="@+id/third_activity_previous_button"
+        android:layout_width="110dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="200dp"
+        android:text="previous"
+        android:textColor="@android:color/background_dark"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
