@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TableLayout;
@@ -26,18 +28,25 @@ public class historique extends AppCompatActivity {
     TextView cost,when;
     EditText expensesU,costU,whenU;
     TableLayout table,tableLayout;
-    Button  update ,deletebutton;
+    Button  update ,deletebutton,changedate,getDatebutton;
+    Calendar calendarr = Calendar.getInstance();
     TextView balance;
     int idtoworkwith;
+    private DatePicker datePicker;
     String type;
 
     private SharedPreferences mPreferences;
     public static final String balanceDB ="90000";
     public static final String shared_STRING ="mainShared";
+
+    private void datePickerChange(DatePicker datePicker, int year, int month, int dayOfMonth) {
+        Log.d("Date", "Year=" + year + " Month=" + (month + 1) + " day=" + dayOfMonth);
+        dateText.setText(dayOfMonth +"-" + (month + 1) + "-" + year);
+    }
     // Add button Move previous activity
     Button previous_button;
     int i;
-    TextView expenses;
+    TextView expenses,dateText;
 
     private AppDataBase dataBase;
 
@@ -58,7 +67,7 @@ public class historique extends AppCompatActivity {
 
     public void dataLoad (){
 
-
+        changedate.setVisibility(View.GONE);
         tableLayout = findViewById(R.id.tablelay);
         TableRow tableRow;
         TextView textView;
@@ -106,7 +115,7 @@ public class historique extends AppCompatActivity {
             tableRow.addView(textView);
 
             Date date = diplayD().get(i).getDateDepense();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String strDate = dateFormat.format(date);
 
             textView = new TextView(getApplicationContext());
@@ -134,11 +143,14 @@ public class historique extends AppCompatActivity {
                 costU.setVisibility(View.VISIBLE);
                 deletebutton.setVisibility(View.VISIBLE);
                 update.setVisibility(View.VISIBLE);
+                changedate.setVisibility(View.VISIBLE);
                 idtoworkwith = tableLayout.indexOfChild(v)-1;
                 type = diplayD().get(idtoworkwith).getType();
 
 
                 expenses.setText(diplayD().get(idtoworkwith).getDepense());
+                costU.setText(String.valueOf(diplayD().get(idtoworkwith).getPrix()));
+                whenU.setText(String.valueOf(diplayD().get(idtoworkwith).getDateDepense()));
                 tableLayout.removeAllViews();
 
                 //    Toast.makeText(this,"jawek behi " +  tableLayout.indexOfChild(v) ,Toast.LENGTH_LONG).show();
@@ -164,11 +176,20 @@ public class historique extends AppCompatActivity {
         deletebutton = findViewById(R.id.DeleteButton);
         update = (Button) findViewById(R.id.update);
 
+
         expenses.setVisibility(View.GONE);
         whenU.setVisibility(View.GONE);
         costU.setVisibility(View.GONE);
         deletebutton.setVisibility(View.GONE);
         update.setVisibility(View.GONE);
+
+        datePicker = (DatePicker) this.findViewById(R.id.datePickerU);
+        dateText= findViewById(R.id.TxtGetDateU);
+        changedate = findViewById(R.id.changedateU);
+        getDatebutton = findViewById(R.id.GetDateU);
+        datePicker.setVisibility(View.GONE);
+        dateText.setVisibility(View.GONE);
+        getDatebutton.setVisibility(View.GONE);
 
 
 
@@ -206,13 +227,21 @@ public class historique extends AppCompatActivity {
             editor.commit();*/
 
             //   Toast.makeText(this,"ChargeFix:" + mPreferences.getString(balanceDB,"") + " Saved" ,Toast.LENGTH_LONG).show();
-
+            dataLoad();
 
         });
 
         update.setOnClickListener(v -> {
 
+            float f = Float.valueOf(mPreferences.getString(balanceDB,"6")) - Float.valueOf(costU.getText().toString()) + diplayD().get(idtoworkwith).getPrix();
+            SharedPreferences.Editor editor = mPreferences.edit();
+            editor.putString(balanceDB,String.valueOf(f));
+            editor.commit();
+            balance.setText(mPreferences.getString(balanceDB,""));
+
             DepenseClass d = diplayD().get(idtoworkwith);
+            d.setDateDepense(calendarr.getTime());
+            d.setPrix(Float.valueOf(costU.getText().toString()));
             d.setDepense(expenses.getText().toString());
             Toast.makeText(this, d.getType() ,Toast.LENGTH_LONG).show();
             updateD(d);
@@ -235,10 +264,10 @@ public class historique extends AppCompatActivity {
                 // balanceint = balanceint - Float.valueOf(cost.getText().toString());
             }*/
 
-        /*    float f = Float.valueOf(mPreferences.getString(balanceDB,"6")) - Float.valueOf(cost.getText().toString());
-            SharedPreferences.Editor editor = mPreferences.edit();
-            editor.putString(balanceDB,String.valueOf(f));
-            editor.commit();*/
+
+
+            Toast.makeText(this,"Updated successfully" + f,Toast.LENGTH_LONG).show();
+
 
             // deleteD(diplayD().get(idtoworkwith));
             Toast.makeText(this,"Updated successfully",Toast.LENGTH_LONG).show();
@@ -260,6 +289,63 @@ public class historique extends AppCompatActivity {
 
 
         });
+
+
+        changedate.setOnClickListener(v -> {
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            int year = calendar.get(Calendar.YEAR);
+            int month  = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            datePicker.init( year, month , day , new DatePicker.OnDateChangedListener() {
+                @Override
+                public void onDateChanged(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                    datePickerChange(  datePicker,   year,   month,   dayOfMonth);
+                }
+            });
+
+
+
+
+            changedate.setVisibility(View.GONE);
+
+            tableLayout.setVisibility(View.GONE);
+            expenses.setVisibility(View.GONE);
+            whenU.setVisibility(View.GONE);
+            costU.setVisibility(View.GONE);
+            deletebutton.setVisibility(View.GONE);
+            update.setVisibility(View.GONE);
+            datePicker.setVisibility(View.VISIBLE);
+            dateText.setVisibility(View.VISIBLE);
+            getDatebutton.setVisibility(View.VISIBLE);
+
+        });
+
+        getDatebutton.setOnClickListener(v -> {
+            datePicker.setVisibility(View.GONE);
+            dateText.setVisibility(View.GONE);
+            getDatebutton.setVisibility(View.GONE);
+
+
+
+            tableLayout.setVisibility(View.GONE);
+            expenses.setVisibility(View.VISIBLE);
+            changedate.setVisibility(View.VISIBLE);
+            costU.setVisibility(View.VISIBLE);
+            deletebutton.setVisibility(View.VISIBLE);
+            update.setVisibility(View.VISIBLE);
+            whenU.setVisibility(View.VISIBLE);
+            int yearr = datePicker.getYear();
+            int monthh = datePicker.getMonth(); // 0 - 11
+            int dayy = datePicker.getDayOfMonth();
+
+            calendarr.set(yearr, monthh, dayy);
+
+            whenU.setText(String.valueOf(calendarr.getTime()));
+        });
+
 
     }
 }

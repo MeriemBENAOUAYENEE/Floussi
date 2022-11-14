@@ -79,8 +79,6 @@ public class depense extends AppCompatActivity  {
        dataBase = AppDataBase.getInstance(this);
 
 
-        Toast.makeText(this,"calendarr.getTime()" + calendarr.getTime() ,Toast.LENGTH_LONG).show();
-
             // by ID we can use each component which id is assign in xml
             // file use findViewById() to get the both Button and textview
             expenses = findViewById(R.id.expenses);
@@ -106,27 +104,7 @@ public class depense extends AppCompatActivity  {
 
 
 
-        getDatebutton.setOnClickListener(v -> {
-                datePicker.setVisibility(View.GONE);
-                dateText.setVisibility(View.GONE);
-                getDatebutton.setVisibility(View.GONE);
 
-                buttonDisplay();
-
-
-                expenses.setVisibility(View.VISIBLE);
-                changedate.setVisibility(View.VISIBLE);
-                retour.setVisibility(View.VISIBLE);
-                cost.setVisibility(View.VISIBLE);
-                when.setVisibility(View.VISIBLE);
-                save.setVisibility(View.VISIBLE);
-                balance.setVisibility(View.VISIBLE);
-                int yearr = datePicker.getYear();
-                int monthh = datePicker.getMonth()+1; // 0 - 11
-                int dayy = datePicker.getDayOfMonth();
-
-                calendarr.set(yearr, monthh, dayy);
-            });
        
 
 
@@ -185,8 +163,14 @@ public class depense extends AppCompatActivity  {
             SharedPreferences.Editor editor = mPreferences.edit();
             editor.putString(balanceDB,String.valueOf(f));
             editor.commit();
+            balance.setText(mPreferences.getString(balanceDB,""));
 
- 
+            // Intents are objects of the android.content.Intent type. Your code can send them to the Android system defining
+            // the components you are targeting. Intent to start an activity called SecondActivity with the following code.
+            Intent intent = new Intent(depense.this, MainActivity.class);
+            // start the activity connect to the specified class
+            startActivity(intent);
+
 
         });
 
@@ -228,11 +212,29 @@ public class depense extends AppCompatActivity  {
             cost.setVisibility(View.GONE);
             when.setVisibility(View.GONE);
             save.setVisibility(View.GONE);
-            balance.setVisibility(View.GONE);
         });
 
 
+        getDatebutton.setOnClickListener(v -> {
+            datePicker.setVisibility(View.GONE);
+            dateText.setVisibility(View.GONE);
+            getDatebutton.setVisibility(View.GONE);
 
+            buttonDisplay();
+
+
+            expenses.setVisibility(View.VISIBLE);
+            changedate.setVisibility(View.VISIBLE);
+            retour.setVisibility(View.VISIBLE);
+            cost.setVisibility(View.VISIBLE);
+            when.setVisibility(View.VISIBLE);
+            save.setVisibility(View.VISIBLE);
+            int yearr = datePicker.getYear();
+            int monthh = datePicker.getMonth(); // 0 - 11
+            int dayy = datePicker.getDayOfMonth();
+
+            calendarr.set(yearr, monthh, dayy);
+        });
 
 
     }
