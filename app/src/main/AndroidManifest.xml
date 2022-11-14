@@ -13,6 +13,13 @@
         android:theme="@style/Theme.Floussi"
         tools:targetApi="31">
         <activity
+            android:name=".updateDelete"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".historique"
             android:exported="false">
             <meta-data

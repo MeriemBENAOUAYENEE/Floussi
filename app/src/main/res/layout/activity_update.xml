@@ -5,10 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation = "vertical"
-    tools:context=".MainActivity"
-
-    >
-
+    tools:context=".updateDelete">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -48,7 +45,7 @@
                 android:textSize="20dp" />
 
             <TextView
-                android:id="@+id/balanceM"
+                android:id="@+id/balanceU"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -68,42 +65,6 @@
 
         </RelativeLayout>
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/buttonDepense"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:backgroundTint="#8f71ff"
-        android:text="Depenses" />
-
-    <Button
-        android:id="@+id/buttonRenenue"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:backgroundTint="#f6cac1"
-        android:text="Revenue" />
-
-    <Button
-        android:id="@+id/buttonCrypto"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:backgroundTint="#84a9fb"
-        android:text="Crypto" />
-
-    <Button
-        android:id="@+id/buttonHistory"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:backgroundTint="#b1a7eb"
-        android:text="Historique des Depenses" />
-
-    <Button
-        android:id="@+id/buttonParam"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:backgroundTint="#6bfafa"
-        android:text="Paramèters" />
-
 
 
 

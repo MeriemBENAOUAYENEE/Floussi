@@ -3,11 +3,13 @@ package com.example.floussi;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 
 import java.util.Date;
 
 
-@Entity(tableName = "depenseTable")
+@Entity(tableName = "DepensesTable")
 public class DepenseClass {
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -18,16 +20,34 @@ public class DepenseClass {
     @ColumnInfo
     private int quantite;
     @ColumnInfo
-    private String dateDepense;
+    @TypeConverters(DateConverter.class)
+    private Date dateDepense;
+    @ColumnInfo
+    private String type;
+
+
+    public static class DateConverter {
+
+        @TypeConverter
+        public Date toDate(Long dateLong){
+            return dateLong == null ? null: new Date(dateLong);
+        }
+
+        @TypeConverter
+        public Long fromDate(Date date){
+            return date == null ? null : date.getTime();
+        }
+    }
 
     public DepenseClass() {
     }
 
-    public DepenseClass(String depense, float prix, int quantite, String dateDepense) {
+    public DepenseClass(String depense, float prix, int quantite, Date dateDepense, String type) {
         this.depense = depense;
         this.prix = prix;
         this.quantite = quantite;
         this.dateDepense = dateDepense;
+        this.type = type;
     }
 
     public int getId() {
@@ -62,13 +82,17 @@ public class DepenseClass {
         this.quantite = quantite;
     }
 
-    public String getDateDepense() {
+    public Date getDateDepense() {
         return dateDepense;
     }
 
-    public void setDateDepense(String dateDepense) {
+    public void setDateDepense(Date dateDepense) {
         this.dateDepense = dateDepense;
     }
+
+    public String getType() {return type;}
+
+    public void setType(String type) {this.type = type;}
 
     @Override
     public String toString() {
@@ -77,7 +101,8 @@ public class DepenseClass {
                 ", depense='" + depense + '\'' +
                 ", prix=" + prix +
                 ", quantite=" + quantite +
-                ", date=" + dateDepense +
+                ", dateDepense='" + dateDepense + '\'' +
+                ", type='" + type + '\'' +
                 '}';
     }
 }
