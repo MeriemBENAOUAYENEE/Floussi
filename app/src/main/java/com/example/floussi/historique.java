@@ -83,33 +83,33 @@ public class historique extends AppCompatActivity {
             textView = new TextView(getApplicationContext());
             textView.setText("Expenses");
             textView.setTypeface(Typeface.DEFAULT_BOLD);
-            textView.setTextColor(Color.parseColor("#f6cac1"));
+            textView.setTextColor(Color.parseColor("#84a9fb"));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
-            textView.setPadding(20, 0, 40, 0);
+            textView.setPadding(20, 0, 60, 0);
             tableRow.addView(textView);
 
             textView = new TextView(getApplicationContext());
             textView.setText("Date");
             textView.setTypeface(Typeface.DEFAULT_BOLD);
-            textView.setTextColor(Color.parseColor("#f6cac1"));
+            textView.setTextColor(Color.parseColor("#84a9fb"));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
-            textView.setPadding(60, 0, 40, 0);
+            textView.setPadding(80, 0, 40, 0);
             tableRow.addView(textView);
 
             textView = new TextView(getApplicationContext());
             textView.setText("Cost");
             textView.setTypeface(Typeface.DEFAULT_BOLD);
-            textView.setTextColor(Color.parseColor("#f6cac1"));
+            textView.setTextColor(Color.parseColor("#84a9fb"));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
-            textView.setPadding(20, 0, 40, 0);
+            textView.setPadding(40, 0, 40, 0);
             tableRow.addView(textView);
 
             textView = new TextView(getApplicationContext());
             textView.setText("Type");
             textView.setTypeface(Typeface.DEFAULT_BOLD);
-            textView.setTextColor(Color.parseColor("#f6cac1"));
+            textView.setTextColor(Color.parseColor("#84a9fb"));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
-            textView.setPadding(40, 0, 20, 0);
+            textView.setPadding(60, 0, 20, 0);
             tableRow.addView(textView);
 
 
@@ -144,6 +144,16 @@ public class historique extends AppCompatActivity {
 
             textView = new TextView(getApplicationContext());
             textView.setText(diplayD().get(i).getType());
+            if (diplayD().get(i).getType().equals("Fix"))
+            {
+                textView.setTextColor(Color.parseColor("#f6cac1"));
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,17);
+            }
+            else
+            {
+                textView.setTextColor(Color.parseColor("#b1a7eb"));
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,17);
+            }
             textView.setPadding(70, 50, 20, 20);
             tableRow.addView(textView);
 
@@ -277,21 +287,14 @@ public class historique extends AppCompatActivity {
 
         update.setOnClickListener(v -> {
 
-            float f = Float.valueOf(mPreferences.getString(balanceDB,"6")) - Float.valueOf(costU.getText().toString()) + diplayD().get(idtoworkwith).getPrix();
-            SharedPreferences.Editor editor = mPreferences.edit();
-            editor.putString(balanceDB,String.valueOf(f));
-            editor.commit();
-            balance.setText(mPreferences.getString(balanceDB,""));
 
-            DepenseClass d = diplayD().get(idtoworkwith);
-            d.setDateDepense(calendarr.getTime());
-            d.setPrix(Float.valueOf(costU.getText().toString()));
-            d.setDepense(expensesU.getText().toString());
-            Toast.makeText(this, d.getType() ,Toast.LENGTH_LONG).show();
-            updateD(d);
-            dataLoad();
+            if (type.equals("Variable"))
+            {
+                float f = Float.valueOf(mPreferences.getString(balanceDB,"6")) - Float.valueOf(costU.getText().toString()) + diplayD().get(idtoworkwith).getPrix();
+                SharedPreferences.Editor editor = mPreferences.edit();
+                editor.putString(balanceDB,String.valueOf(f));
+                editor.commit();
 
-            if (d.getType() == "chargeVariable"){
                 //alert
                 // Create the object of AlertDialog Builder class
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -307,11 +310,45 @@ public class historique extends AppCompatActivity {
 
                 // Set the positive button with yes name Lambda OnClickListener method is use of DialogInterface interface.
                 builder.setPositiveButton("ok", (DialogInterface.OnClickListener) (dialog, which) -> {
-                    // Intents are objects of the android.content.Intent type. Your code can send them to the Android system defining
-                    // the components you are targeting. Intent to start an activity called SecondActivity with the following code.
-                    Intent intent = new Intent(historique.this, MainActivity.class);
-                    // start the activity connect to the specified class
-                    startActivity(intent);
+                    dataLoad();
+
+                    tableLayout.setVisibility(View.VISIBLE);
+                    expensesU.setVisibility(View.GONE);
+                    whenU.setVisibility(View.GONE);
+                    costU.setVisibility(View.GONE);
+                    deletebutton.setVisibility(View.GONE);
+                    update.setVisibility(View.GONE);
+                });
+
+                // Create the Alert dialog
+                AlertDialog alertDialog = builder.create();
+                // Show the Alert Dialog box
+                alertDialog.show();          }
+            else
+            {
+                //alert
+                // Create the object of AlertDialog Builder class
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                // Set the message show for the Alert time
+                builder.setMessage("Your Expenses is modified Successfully .. We did not change your Balance because this is a fixed Expenses");
+
+                // Set Alert Title
+                builder.setTitle("$$");
+
+                // Set Cancelable false for when the user clicks on the outside the Dialog Box then it will remain show
+                builder.setCancelable(false);
+
+                // Set the positive button with yes name Lambda OnClickListener method is use of DialogInterface interface.
+                builder.setPositiveButton("ok", (DialogInterface.OnClickListener) (dialog, which) -> {
+                    dataLoad();
+
+                    tableLayout.setVisibility(View.VISIBLE);
+                    expensesU.setVisibility(View.GONE);
+                    whenU.setVisibility(View.GONE);
+                    costU.setVisibility(View.GONE);
+                    deletebutton.setVisibility(View.GONE);
+                    update.setVisibility(View.GONE);
                 });
 
                 // Create the Alert dialog
@@ -320,22 +357,17 @@ public class historique extends AppCompatActivity {
                 alertDialog.show();
             }
 
-        /*    else {
-                DepenseClass d = new DepenseClass(expenses.getText().toString(),Float.valueOf(cost.getText().toString()),0,Calendar.getInstance().getTime(),"Fix");
-                updateD(d);
-                Toast.makeText(this,"ChargeFix:" + expenses.getText().toString() + " Saved" ,Toast.LENGTH_LONG).show();
-                // balanceint = balanceint - Float.valueOf(cost.getText().toString());
-            }*/
+
+            balance.setText(mPreferences.getString(balanceDB,""));
+
+            DepenseClass d = diplayD().get(idtoworkwith);
+            d.setDateDepense(calendarr.getTime());
+            d.setPrix(Float.valueOf(costU.getText().toString()));
+            d.setDepense(expensesU.getText().toString());
 
 
+            updateD(d);
 
-
-            tableLayout.setVisibility(View.VISIBLE);
-            expensesU.setVisibility(View.GONE);
-            whenU.setVisibility(View.GONE);
-            costU.setVisibility(View.GONE);
-            deletebutton.setVisibility(View.GONE);
-            update.setVisibility(View.GONE);
 
 
 
