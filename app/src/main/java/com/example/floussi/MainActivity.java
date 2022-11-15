@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    // define the global variable
 
-    // Add button Move to Activity
-    Button next_Activity_button,historique;
+    Button next_Activity_button,historique,stat;
 
     TextView balance;
 
@@ -32,29 +32,27 @@ public class MainActivity extends AppCompatActivity {
         mPreferences = getSharedPreferences(shared_STRING, MODE_PRIVATE);
 
 
-       /* SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-        preferencesEditor.putString("Balance", "90000");
-        preferencesEditor.apply();
-        finish();*/
+
 
 
 
 
         // by ID we can use each component which id is assign in xml file
-        // use findViewById() to get the Button
+
         next_Activity_button = (Button) findViewById(R.id.buttonDepense);
         historique = (Button) findViewById(R.id.buttonHistory);
         balance =  findViewById(R.id.balanceM);
-     //
+        stat= findViewById(R.id.buttonParam);
 
 
 
-        balance.setText(mPreferences.getString(balanceDB,"6"));
+
+        balance.setText(mPreferences.getString(balanceDB,""));
 
 
 
-      //balance.setText(mPreferences.getString("Balance","58") );
-        //Add_button add clicklistener
+
+        //Add_button clicklistener
         next_Activity_button.setOnClickListener(v -> {
 
 
@@ -70,6 +68,14 @@ public class MainActivity extends AppCompatActivity {
             // Intents are objects of the android.content.Intent type. Your code can send them to the Android system defining
             // the components you are targeting. Intent to start an activity called SecondActivity with the following code.
             Intent intent = new Intent(MainActivity.this, historique.class);
+            // start the activity connect to the specified class
+            startActivity(intent);
+        });
+
+        stat.setOnClickListener(v -> {
+            // Intents are objects of the android.content.Intent type. Your code can send them to the Android system defining
+            // the components you are targeting. Intent to start an activity called SecondActivity with the following code.
+            Intent intent = new Intent(MainActivity.this, updateDelete.class);
             // start the activity connect to the specified class
             startActivity(intent);
         });

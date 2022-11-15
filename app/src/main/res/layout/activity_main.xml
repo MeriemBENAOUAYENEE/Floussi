@@ -74,7 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:backgroundTint="#8f71ff"
-        android:text="Depenses" />
+        android:text="Expenses" />
 
     <Button
         android:id="@+id/buttonRenenue"
@@ -95,14 +95,14 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:backgroundTint="#b1a7eb"
-        android:text="Historique des Depenses" />
+        android:text="History of Expenses" />
 
     <Button
         android:id="@+id/buttonParam"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:backgroundTint="#6bfafa"
-        android:text="Paramèters" />
+        android:text="Statistics" />
 
 
 

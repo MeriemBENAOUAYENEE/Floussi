@@ -69,13 +69,26 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <TableLayout
-        android:id="@+id/tablelay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="250dp">
 
-    </TableLayout>
+
+
+
+
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="250dp">
+            <TableLayout
+                android:id="@+id/tablelay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+
+            </TableLayout>
+        </androidx.core.widget.NestedScrollView>
+
 
     <DatePicker
         android:id="@+id/datePickerU"

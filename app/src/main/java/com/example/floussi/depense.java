@@ -1,11 +1,12 @@
 package com.example.floussi;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.TypeConverters;
 
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,9 +14,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Calendar;
 
@@ -24,9 +23,8 @@ public class depense extends AppCompatActivity  {
     // define the global variable
     EditText expenses,cost;
     Calendar calendarr = Calendar.getInstance();
-    // Add button Move to next Activity and previous Activity
     Button chargeVariable, chargeFix, save ,retour,getDatebutton,changedate;
-    TextView fix,variable,dateText,when;
+    TextView fix,variable,dateText,when,whenDefault;
     String type="chargeVariable";
 
     private AppDataBase dataBase;
@@ -89,6 +87,7 @@ public class depense extends AppCompatActivity  {
             chargeFix = findViewById(R.id.buttonFix);
             cost = findViewById(R.id.cost);
             when = findViewById(R.id.when);
+            whenDefault = findViewById(R.id.whenDefault);
             save = (Button) findViewById(R.id.save);
             balance =  findViewById(R.id.balanceD);
 
@@ -118,6 +117,94 @@ public class depense extends AppCompatActivity  {
       //  balance.setText(mPreferences.getString(balanceDB,"6"));
 
 
+
+
+
+        balance.setText(mPreferences.getString(balanceDB,"6"));
+
+
+        // Add_button add clicklistener
+        save.setOnClickListener(v -> {
+
+            //   balance.setText(mPreferences.getString(balanceDB,"6"));
+            if (type == "chargeVariable"){
+                DepenseClass d = new DepenseClass(expenses.getText().toString(),Float.valueOf(cost.getText().toString()),0,calendarr.getTime(), "Variable");
+            add(d);
+
+
+                float f = Float.valueOf(mPreferences.getString(balanceDB,"6")) - Float.valueOf(cost.getText().toString());
+                SharedPreferences.Editor editor = mPreferences.edit();
+                editor.putString(balanceDB,String.valueOf(f));
+                editor.commit();
+
+                //alert
+                // Create the object of AlertDialog Builder class
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                // Set the message show for the Alert time
+                builder.setMessage("Your balance is modified to " + mPreferences.getString(balanceDB,"") + " because it is a variable Expenses");
+
+                // Set Alert Title
+                builder.setTitle("$$");
+
+                // Set Cancelable false for when the user clicks on the outside the Dialog Box then it will remain show
+                builder.setCancelable(false);
+
+                // Set the positive button with yes name Lambda OnClickListener method is use of DialogInterface interface.
+                builder.setPositiveButton("ok", (DialogInterface.OnClickListener) (dialog, which) -> {
+                    // Intents are objects of the android.content.Intent type. Your code can send them to the Android system defining
+                    // the components you are targeting. Intent to start an activity called SecondActivity with the following code.
+                    Intent intent = new Intent(depense.this, MainActivity.class);
+                    // start the activity connect to the specified class
+                    startActivity(intent);
+                });
+
+                // Create the Alert dialog
+                AlertDialog alertDialog = builder.create();
+                // Show the Alert Dialog box
+                alertDialog.show();          }
+
+            else {
+                DepenseClass d = new DepenseClass(expenses.getText().toString(),Float.valueOf(cost.getText().toString()),0,calendarr.getTime(),"Fix");
+                add(d);
+                //alert
+                // Create the object of AlertDialog Builder class
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                // Set the message show for the Alert time
+                builder.setMessage("Your Expenses is saved .. We did not change your Balance because this is a fixed Expenses");
+
+                // Set Alert Title
+                builder.setTitle("$$");
+
+                // Set Cancelable false for when the user clicks on the outside the Dialog Box then it will remain show
+                builder.setCancelable(false);
+
+                // Set the positive button with yes name Lambda OnClickListener method is use of DialogInterface interface.
+                builder.setPositiveButton("ok", (DialogInterface.OnClickListener) (dialog, which) -> {
+                    // Intents are objects of the android.content.Intent type. Your code can send them to the Android system defining
+                    // the components you are targeting. Intent to start an activity called SecondActivity with the following code.
+                    Intent intent = new Intent(depense.this, MainActivity.class);
+                    // start the activity connect to the specified class
+                    startActivity(intent);
+                });
+
+                // Create the Alert dialog
+                AlertDialog alertDialog = builder.create();
+                // Show the Alert Dialog box
+                alertDialog.show();
+                          }
+
+
+            balance.setText(mPreferences.getString(balanceDB,""));
+
+
+
+
+
+
+        });
+
         chargeVariable.setOnClickListener(v -> {
             type = "chargeVariable";
             chargeVariable.setVisibility(View.GONE);
@@ -129,49 +216,8 @@ public class depense extends AppCompatActivity  {
             type = "chargeFix";
             chargeFix.setVisibility(View.GONE);
             fix.setVisibility(View.VISIBLE);
+            variable.setVisibility(View.GONE);
             chargeVariable.setVisibility(View.VISIBLE);
-        });
-
-
-        balance.setText(mPreferences.getString(balanceDB,"6"));
-
-
-        // Add_button add clicklistener
-        save.setOnClickListener(v -> {
-
-
-
-
-
-            //   balance.setText(mPreferences.getString(balanceDB,"6"));
-            if (type == "chargeVariable"){
-                DepenseClass d = new DepenseClass(expenses.getText().toString(),Float.valueOf(cost.getText().toString()),0,calendarr.getTime(), "Variable");
-            add(d);
-            //    balanceint = balanceint - Float.valueOf(cost.getText().toString());
-
-                Toast.makeText(this,"ChargeVariable:" + expenses.getText().toString() + " Saved" ,Toast.LENGTH_LONG).show();
-            }
-
-            else {
-                DepenseClass d = new DepenseClass(expenses.getText().toString(),Float.valueOf(cost.getText().toString()),0,calendarr.getTime(),"Fix");
-                add(d);
-                Toast.makeText(this,"ChargeFix:" + expenses.getText().toString() + " Saved" ,Toast.LENGTH_LONG).show();
-               // balanceint = balanceint - Float.valueOf(cost.getText().toString());
-            }
-
-            float f = Float.valueOf(mPreferences.getString(balanceDB,"6")) - Float.valueOf(cost.getText().toString());
-            SharedPreferences.Editor editor = mPreferences.edit();
-            editor.putString(balanceDB,String.valueOf(f));
-            editor.commit();
-            balance.setText(mPreferences.getString(balanceDB,""));
-
-            // Intents are objects of the android.content.Intent type. Your code can send them to the Android system defining
-            // the components you are targeting. Intent to start an activity called SecondActivity with the following code.
-            Intent intent = new Intent(depense.this, MainActivity.class);
-            // start the activity connect to the specified class
-            startActivity(intent);
-
-
         });
 
         retour.setOnClickListener(v -> {
@@ -211,6 +257,7 @@ public class depense extends AppCompatActivity  {
             retour.setVisibility(View.GONE);
             cost.setVisibility(View.GONE);
             when.setVisibility(View.GONE);
+            whenDefault.setVisibility(View.GONE);
             save.setVisibility(View.GONE);
         });
 
@@ -228,6 +275,8 @@ public class depense extends AppCompatActivity  {
             retour.setVisibility(View.VISIBLE);
             cost.setVisibility(View.VISIBLE);
             when.setVisibility(View.VISIBLE);
+            when.setText(String.valueOf(calendarr.getTime()));
+
             save.setVisibility(View.VISIBLE);
             int yearr = datePicker.getYear();
             int monthh = datePicker.getMonth(); // 0 - 11

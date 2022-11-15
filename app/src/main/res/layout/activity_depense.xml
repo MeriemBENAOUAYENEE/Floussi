@@ -88,7 +88,7 @@
             android:layout_height="60dp"
             android:layout_marginLeft="220dp"
             android:backgroundTint="#f6cac1"
-            android:text="Charge Fixe" />
+            android:text="Fixed Expenses" />
 
 
         <TextView
@@ -99,7 +99,7 @@
             android:layout_marginTop="20dp"
             android:textSize="20dp"
             android:textColor="#f6cac1"
-            android:text="Charge Fixe" />
+            android:text="Fixed Expenses" />
 
         <Button
             android:id="@+id/buttonVariable"
@@ -107,17 +107,17 @@
             android:layout_height="60dp"
             android:layout_marginLeft="20dp"
             android:backgroundTint="#8f71ff"
-            android:text="Charge Variable" />
+            android:text="Variable Expenses" />
 
         <TextView
             android:id="@+id/TxtVariable"
-            android:layout_width="150dp"
+            android:layout_width="200dp"
             android:layout_height="80dp"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
             android:textSize="20dp"
             android:textColor="#8f71ff"
-            android:text="Charge Variable" />
+            android:text="Variable Expenses" />
 
 
     </RelativeLayout>
@@ -154,7 +154,18 @@
         android:inputType="date"
         android:layout_marginTop="110dp"
         android:textSize="20sp"
-        android:hint="When : DefaultDate is Today" />
+        android:hint="When" />
+
+        <TextView
+            android:id="@+id/whenDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="12"
+            android:inputType="date"
+            android:layout_marginTop="115dp"
+            android:layout_marginLeft="50dp"
+            android:textSize="15sp"
+            android:hint=" : DefaultDate is Today" />
 
         <Button
             android:id="@+id/changedate"
@@ -189,7 +200,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="200dp"
             android:layout_marginTop="160dp"
-            android:text="GetDate"
+            android:text="Get Date"
             android:backgroundTint="#84a9fb"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -209,7 +220,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="80dp"
             android:layout_marginTop="160dp"
-            android:text="Retour"
+            android:text="Back"
             android:backgroundTint="#b1a7eb"
             android:textSize="15sp"
             android:textStyle="bold" />

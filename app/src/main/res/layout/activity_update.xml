@@ -66,7 +66,50 @@
         </RelativeLayout>
     </RelativeLayout>
 
+<RelativeLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="30dp">
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check how much did u spent on a month:"
+        android:textColor="#8f71ff"
+        android:textSize="20dp" />
+
+    <!-- Spinner Element -->
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="70dp"
+        android:backgroundTint="#84a9fb"
+        android:textSize="50dp"
+        />
+
+    <TextView
+        android:id="@+id/CostMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:textColor="#84a9fb"
+        android:textSize="23dp" />
+
+    <Button
+        android:id="@+id/getCostMonth"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="270dp"
+        android:text="Cost"
+        android:layout_marginTop="150dp"
+        android:backgroundTint="#84a9fb"
+        android:textSize="10sp"
+        android:textStyle="bold" />
 
 
+</RelativeLayout>
 
 </LinearLayout>
